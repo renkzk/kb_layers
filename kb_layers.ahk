@@ -77,6 +77,8 @@ AccentShiftAtDown := false
 }
 
 ; SC027 is the physical semicolon key on the en-US QWERTY layout.
+; Do not capture Ctrl/Alt/Win + ;, so application shortcuts can still use them.
+#HotIf !IsShortcutModifierDown()
 *SC027:: {
     global AccentIsDown, AccentUsedAsLayer, AccentDownAt, AccentShiftAtDown
 
@@ -100,6 +102,7 @@ AccentShiftAtDown := false
     AccentDownAt := 0
     AccentShiftAtDown := false
 }
+#HotIf
 
 IsTruthy(value) {
     normalized := StrLower(Trim(value))
@@ -108,6 +111,15 @@ IsTruthy(value) {
         || normalized = "true"
         || normalized = "yes"
         || normalized = "on"
+    )
+}
+
+IsShortcutModifierDown() {
+    return (
+        GetKeyState("Ctrl", "P")
+        || GetKeyState("Alt", "P")
+        || GetKeyState("LWin", "P")
+        || GetKeyState("RWin", "P")
     )
 }
 
