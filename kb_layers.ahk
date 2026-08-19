@@ -63,6 +63,13 @@ AccentShiftAtDown := false
     SpaceIsDown := true
     SpaceUsedAsLayer := false
     SpaceDownAt := A_TickCount
+
+    ; Let app/system shortcuts such as Ctrl+Space reach the active app, and
+    ; prevent Space Up from later inserting a plain space.
+    if IsShortcutModifierDown() {
+        SpaceUsedAsLayer := true
+        Send "{Blind}{Space}"
+    }
 }
 
 *Space Up:: {
